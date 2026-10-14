@@ -44,17 +44,9 @@ class FerngeistGateway < Formula
     end
   end
 
-  def post_install
-    # --keep-settings: upgrades reapply the existing install's options
-    # (--remote/--port/...); --lan only sets first-install defaults.
-    # macOS runs post_install sandboxed with a temporary HOME, so launchctl
-    # bootstrap fails there; install.sh / the caveat register it instead.
-    system "ferngeist-gateway", "daemon", "install", "--keep-settings", "--lan" if OS.linux?
-  end
-
   def caveats
     <<~EOS
-      On macOS, start the daemon (and refresh it after each upgrade) with:
+      Start the daemon (and restart it on the new version after each upgrade) with:
         ferngeist-gateway daemon install --keep-settings --lan
     EOS
   end
